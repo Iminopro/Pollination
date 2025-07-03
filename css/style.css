@@ -66,6 +66,34 @@ fieldset.form-group {
     margin-bottom: 15px;
 }
 
+/* Ad Banner Slot Styles */
+.ad-banner-slot {
+    width: 100%; /* Take full width of its container */
+    margin: 20px auto; /* Centering and vertical spacing */
+    padding: 0;
+    min-height: 50px; /* Minimum height to be visible if ad doesn't load */
+    display: flex; /* For centering content if needed */
+    justify-content: center;
+    align-items: center;
+    /* background-color: #e9ecef; */ /* Optional: placeholder background for testing */
+    /* border: 1px dashed #ccc; */   /* Optional: placeholder border for testing */
+    text-align: center; /* Center inline content like text or placeholder images */
+    overflow: hidden; /* Prevent ad content from breaking layout */
+}
+
+.ad-banner-slot img { /* If you use placeholder images directly */
+    max-width: 100%;
+    height: auto;
+}
+
+/* Ensure ad slots within the .container take its padding into account if needed,
+   or adjust .container padding if ads should be full-bleed.
+   Current setup: .ad-banner-slot is a .container itself for top/bottom,
+   so it will have the 80% width and padding.
+   If you want full-width ad banners outside the main content constraints,
+   you would not add the .container class to the ad slot divs.
+*/
+
 fieldset.form-group legend {
     font-weight: bold;
     padding: 0 5px;
