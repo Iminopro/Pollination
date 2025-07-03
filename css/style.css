@@ -1,0 +1,217 @@
+/* General Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+.container {
+    width: 80%;
+    margin: auto;
+    overflow: hidden;
+    padding: 0 20px;
+}
+
+/* Header Styles */
+header {
+    background: #333;
+    color: #fff;
+    padding-top: 30px;
+    min-height: 70px;
+    border-bottom: #0779e4 3px solid;
+}
+
+header h1 {
+    float: left;
+    margin: 0;
+    font-size: 24px;
+}
+
+header nav {
+    float: right;
+    margin-top: 10px;
+}
+
+header nav ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+header nav ul li {
+    display: inline;
+    padding: 0 20px 0 20px;
+}
+
+header a {
+    color: #fff;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 16px;
+}
+
+header a:hover {
+    color: #0779e4;
+    font-weight: bold;
+}
+
+/* Fieldset styles for grouping options */
+fieldset.form-group {
+    border: 1px solid #ddd;
+    padding: 10px 15px;
+    border-radius: 4px;
+    margin-bottom: 15px;
+}
+
+fieldset.form-group legend {
+    font-weight: bold;
+    padding: 0 5px;
+    font-size: 0.9em;
+    color: #555;
+}
+
+fieldset.form-group div {
+    margin-bottom: 5px;
+}
+
+fieldset.form-group div label {
+    font-weight: normal; /* Override default label bolding inside fieldset */
+    margin-left: 5px;
+    display: inline; /* Keep checkbox and label on same line */
+}
+
+.form-hint {
+    font-size: 0.9em;
+    color: #666;
+    margin-top: -10px; /* Pull it closer to the fieldset above */
+    margin-bottom: 15px;
+}
+
+/* Main Content Styles */
+main {
+    padding: 20px 0;
+}
+
+main h2 {
+    color: #333;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+/* Footer Styles */
+footer {
+    background: #333;
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+/* Form Styles */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-group input[type="text"],
+.form-group input[type="number"],
+.form-group textarea,
+.form-group select {
+    width: calc(100% - 22px); /* Account for padding and border */
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box; /* Important for width calculation */
+}
+
+.form-group textarea {
+    min-height: 80px;
+    resize: vertical;
+}
+
+.form-group input[type="checkbox"] {
+    margin-right: 5px;
+    vertical-align: middle;
+}
+
+button {
+    display: inline-block;
+    background: #0779e4;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background: #0056b3;
+}
+
+/* Output Area Styles */
+.output-area {
+    margin-top: 20px;
+    padding: 15px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    min-height: 50px;
+}
+
+.output-area img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 10px auto;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.output-area audio {
+    width: 100%;
+    margin-top: 10px;
+}
+
+.output-area pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    background: #e9ecef;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+.error-message {
+    color: #d9534f; /* Bootstrap danger color */
+    font-weight: bold;
+    padding: 10px;
+    background-color: #f2dede; /* Bootstrap danger background */
+    border: 1px solid #ebccd1; /* Bootstrap danger border */
+    border-radius: 4px;
+}
+
+/* Specific Page Styles (can be expanded) */
+#welcome p {
+    font-size: 1.1em;
+    margin-bottom: 10px;
+}
+
+/* Utility classes */
+.hidden {
+    display: none;
+}
+
+header nav ul li a.active {
+    color: #0779e4; /* Highlight color for active link */
+    font-weight: bold;
+}

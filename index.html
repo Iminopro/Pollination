@@ -3,286 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pollinations.AI Interface</title>
-    <style>
-        body { font-family: sans-serif; margin: 20px; background-color: #f4f4f4; color: #333; }
-        h1 { text-align: center; color: #2c3e50; }
-        .container { background-color: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); margin-bottom: 20px; }
-        h2 { color: #3498db; border-bottom: 2px solid #3498db; padding-bottom: 5px; }
-        label { display: block; margin-top: 10px; font-weight: bold; }
-        input[type="text"], input[type="number"], select { width: calc(100% - 22px); padding: 10px; margin-top: 5px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }
-        button { background-color: #3498db; color: white; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; margin-top: 15px; }
-        button:hover { background-color: #2980b9; }
-        img, audio { max-width: 100%; margin-top: 10px; border-radius: 4px; }
-        .output { margin-top: 15px; padding: 10px; background-color: #e9ecef; border: 1px solid #ced4da; border-radius: 4px; }
-        .error { color: red; font-weight: bold; }
-    </style>
+    <title>NewGenerationAI - Home</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <h1>Pollinations.AI Interface</h1>
-
-    <!-- Image Generation Section -->
-    <div class="container" id="image-generation">
-        <h2>Image Generation</h2>
-        <label for="img-prompt">Prompt:</label>
-        <input type="text" id="img-prompt" value="A beautiful landscape">
-
-        <label for="img-width">Width:</label>
-        <input type="number" id="img-width" value="512">
-
-        <label for="img-height">Height:</label>
-        <input type="number" id="img-height" value="512">
-
-        <label for="img-seed">Seed (optional):</label>
-        <input type="number" id="img-seed" value="42">
-
-        <label for="img-model">Model:</label>
-        <select id="img-model"></select>
-
-        <button onclick="generateImage()">Generate Image</button>
-        <div class="output" id="img-output">
-            <img id="generated-image" src="#" alt="Generated Image will appear here" style="display:none;">
-            <p id="img-error" class="error"></p>
+    <header>
+        <div class="container">
+            <h1>NewGenerationAI</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="image.html">Image Generation</a></li>
+                    <li><a href="text.html">Text Generation</a></li>
+                    <li><a href="audio.html">Audio Generation</a></li>
+                </ul>
+            </nav>
         </div>
-    </div>
-
-    <!-- Text Generation Section -->
-    <div class="container" id="text-generation">
-        <h2>Text Generation</h2>
-        <label for="text-prompt">Prompt:</label>
-        <input type="text" id="text-prompt" value="Once upon a time">
-
-        <label for="text-model">Model (optional):</label>
-        <select id="text-model"></select>
-
-        <button onclick="generateText()">Generate Text</button>
-        <div class="output" id="text-output">
-            <p id="generated-text"></p>
-            <p id="text-error" class="error"></p>
+    </header>
+    <main>
+        <div class="container">
+            <section id="welcome">
+                <h2>Welcome to NewGenerationAI</h2>
+                <p>Your gateway to creative AI tools, inspired by Pollinations.AI. Choose a service from the navigation above to get started.</p>
+                <p>This site allows you to generate images, text, and audio using powerful AI models.</p>
+            </section>
         </div>
-    </div>
-
-    <!-- Audio Generation Section -->
-    <div class="container" id="audio-generation">
-        <h2>Audio Generation</h2>
-        <label for="audio-prompt">Prompt:</label>
-        <input type="text" id="audio-prompt" value="Hello world">
-
-        <label for="audio-voice">Voice:</label>
-        <input type="text" id="audio-voice" value="alloy">
-        <!-- Common voices: alloy, echo, fable, onyx, nova, shimmer -->
-
-        <button onclick="generateAudio()">Generate Audio</button>
-        <div class="output" id="audio-output">
-            <audio id="generated-audio" controls></audio>
-            <p id="audio-error" class="error"></p>
+    </main>
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 NewGenerationAI</p>
         </div>
-    </div>
-
-    <script>
-        const IMAGE_API_URL = "https://image.pollinations.ai/prompt/";
-        const IMAGE_MODELS_URL = "https://image.pollinations.ai/models";
-        const TEXT_API_URL = "https://text.pollinations.ai/";
-        const TEXT_MODELS_URL = "https://text.pollinations.ai/models";
-        const AUDIO_API_URL = "https://text.pollinations.ai/"; // Uses text API with specific params
-
-        // --- Image Generation ---
-        async function fetchImageModels() {
-            const modelSelect = document.getElementById('img-model');
-            try {
-                const response = await fetch(IMAGE_MODELS_URL);
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                const models = await response.json();
-                // Assuming models is an object where keys are model names
-                for (const modelName in models) {
-                    const option = document.createElement('option');
-                    option.value = modelName;
-                    option.textContent = modelName;
-                    modelSelect.appendChild(option);
-                }
-                // Set a default model if available, e.g., "flux" if it exists
-                if (models['flux']) {
-                    modelSelect.value = 'flux';
-                } else if (modelSelect.options.length > 0) {
-                    modelSelect.selectedIndex = 0; // Select first available if flux is not there
-                }
-            } catch (error) {
-                document.getElementById('img-error').textContent = `Error fetching image models: ${error.message}`;
-                console.error("Error fetching image models:", error);
-            }
-        }
-
-        async function generateImage() {
-            const prompt = document.getElementById('img-prompt').value;
-            const width = document.getElementById('img-width').value;
-            const height = document.getElementById('img-height').value;
-            const seed = document.getElementById('img-seed').value;
-            const model = document.getElementById('img-model').value;
-            const generatedImage = document.getElementById('generated-image');
-            const imgError = document.getElementById('img-error');
-
-            imgError.textContent = "";
-            generatedImage.style.display = 'none';
-
-            if (!prompt) {
-                imgError.textContent = "Prompt cannot be empty.";
-                return;
-            }
-
-            let url = `${IMAGE_API_URL}${encodeURIComponent(prompt)}`;
-            const params = new URLSearchParams();
-            if (width) params.append('width', width);
-            if (height) params.append('height', height);
-            if (seed) params.append('seed', seed);
-            if (model) params.append('model', model);
-
-            if (params.toString()) {
-                url += `?${params.toString()}`;
-            }
-
-            try {
-                // Displaying the image directly via URL
-                generatedImage.src = url;
-                generatedImage.style.display = 'block';
-                generatedImage.onload = () => {
-                    imgError.textContent = ""; // Clear error on successful load
-                };
-                generatedImage.onerror = () => {
-                    imgError.textContent = "Error loading image. Check parameters or API status.";
-                    generatedImage.style.display = 'none';
-                };
-            } catch (error) {
-                imgError.textContent = `Error generating image: ${error.message}`;
-                console.error("Error generating image:", error);
-            }
-        }
-
-        // --- Text Generation ---
-        async function fetchTextModels() {
-            const modelSelect = document.getElementById('text-model');
-            try {
-                const response = await fetch(TEXT_MODELS_URL);
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                const models = await response.json();
-                 // Assuming models is an object where keys are model names
-                for (const modelName in models) {
-                    const option = document.createElement('option');
-                    option.value = modelName;
-                    option.textContent = modelName;
-                    modelSelect.appendChild(option);
-                }
-                if (modelSelect.options.length > 0) {
-                    modelSelect.selectedIndex = 0; // Select first available
-                }
-            } catch (error) {
-                document.getElementById('text-error').textContent = `Error fetching text models: ${error.message}`;
-                console.error("Error fetching text models:", error);
-            }
-        }
-
-        async function generateText() {
-            const prompt = document.getElementById('text-prompt').value;
-            const model = document.getElementById('text-model').value;
-            const generatedTextEl = document.getElementById('generated-text');
-            const textError = document.getElementById('text-error');
-
-            generatedTextEl.textContent = "";
-            textError.textContent = "";
-
-            if (!prompt) {
-                textError.textContent = "Prompt cannot be empty.";
-                return;
-            }
-
-            let url = `${TEXT_API_URL}${encodeURIComponent(prompt)}`;
-            const params = new URLSearchParams();
-            if (model) { // Model is optional for text gen, but if selected, add it
-                params.append('model', model);
-            }
-            if (params.toString()) {
-                url += `?${params.toString()}`;
-            }
-
-            try {
-                const response = await fetch(url);
-                if (!response.ok) {
-                    const errorData = await response.text(); // Try to get more info
-                    throw new Error(`HTTP error! status: ${response.status}. Message: ${errorData}`);
-                }
-                const data = await response.json(); // Pollinations text API returns JSON
-                if (data && data.text) {
-                     generatedTextEl.textContent = data.text;
-                } else if (typeof data === 'string') { // Some models might return plain text
-                    generatedTextEl.textContent = data;
-                }
-                else {
-                    // If the response is not as expected, try to parse as text
-                    const textResponse = await response.text(); // Re-fetch as text
-                    generatedTextEl.textContent = textResponse;
-                }
-            } catch (error) {
-                textError.textContent = `Error generating text: ${error.message}`;
-                console.error("Error generating text:", error);
-            }
-        }
-
-        // --- Audio Generation ---
-        async function generateAudio() {
-            const prompt = document.getElementById('audio-prompt').value;
-            const voice = document.getElementById('audio-voice').value;
-            const generatedAudioEl = document.getElementById('generated-audio');
-            const audioError = document.getElementById('audio-error');
-
-            generatedAudioEl.src = "";
-            audioError.textContent = "";
-
-            if (!prompt) {
-                audioError.textContent = "Prompt cannot be empty.";
-                return;
-            }
-            if (!voice) {
-                audioError.textContent = "Voice cannot be empty.";
-                return;
-            }
-
-            let url = `${AUDIO_API_URL}${encodeURIComponent(prompt)}`;
-            const params = new URLSearchParams();
-            params.append('model', 'openai-audio'); // Specific model for audio
-            params.append('voice', voice);
-
-            url += `?${params.toString()}`;
-
-            try {
-                // The response for audio is the audio file itself
-                generatedAudioEl.src = url;
-                generatedAudioEl.hidden = false;
-                generatedAudioEl.load(); // Start loading the audio
-                generatedAudioEl.oncanplaythrough = () => {
-                     audioError.textContent = ""; // Clear error if audio can play
-                };
-                generatedAudioEl.onerror = () => {
-                    audioError.textContent = "Error loading audio. Check parameters, voice, or API status.";
-                    console.error("Error loading audio. URL was: " + url);
-                    generatedAudioEl.hidden = true;
-                };
-            } catch (error) {
-                audioError.textContent = `Error generating audio: ${error.message}`;
-                console.error("Error generating audio:", error);
-                generatedAudioEl.hidden = true;
-            }
-        }
-
-        // Initialize
-        document.addEventListener('DOMContentLoaded', () => {
-            fetchImageModels();
-            fetchTextModels();
-            // Hide audio element initially
-            document.getElementById('generated-audio').hidden = true;
-        });
-    </script>
+    </footer>
+    <script src="js/main.js"></script>
 </body>
 </html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Generation - NewGenerationAI</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>NewGenerationAI</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="image.html">Image Generation</a></li>
+                    <li><a href="text.html">Text Generation</a></li>
+                    <li><a href="audio.html">Audio Generation</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <main>
+        <div class="container" id="image-generation-page">
+            <h2>Image Generation</h2>
+            <form id="image-form">
+                <div class="form-group">
+                    <label for="img-prompt">Prompt:</label>
+                    <textarea id="img-prompt" name="prompt" rows="3" required>A futuristic cityscape at sunset</textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="img-negative-prompt">Negative Prompt (optional):</label>
+                    <input type="text" id="img-negative-prompt" name="negative_prompt" placeholder="e.g., blurry, watermark, text">
+                </div>
+
+                <div class="form-group">
+                    <label for="img-model">Model:</label>
+                    <select id="img-model" name="model"></select>
+                </div>
+
+                <div class="form-group">
+                    <label for="img-width">Width (64-2048):</label>
+                    <input type="number" id="img-width" name="width" value="1024" min="64" max="2048" step="8">
+                </div>
+
+                <div class="form-group">
+                    <label for="img-height">Height (64-2048):</label>
+                    <input type="number" id="img-height" name="height" value="1024" min="64" max="2048" step="8">
+                </div>
+
+                <div class="form-group">
+                    <label for="img-seed">Seed (optional, number):</label>
+                    <input type="number" id="img-seed" name="seed" placeholder="e.g., 42">
+                </div>
+
+                <fieldset class="form-group">
+                    <legend>Options:</legend>
+                    <div>
+                        <input type="checkbox" id="img-nologo" name="nologo" checked>
+                        <label for="img-nologo">No Logo</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" id="img-enhance" name="enhance">
+                        <label for="img-enhance">Enhance Prompt</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" id="img-safe" name="safe">
+                        <label for="img-safe">Safe Mode</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" id="img-private" name="private">
+                        <label for="img-private">Private Generation</label>
+                    </div>
+                </fieldset>
+
+                <button type="submit" id="generate-image-btn">Generate Image</button>
+            </form>
+
+            <div id="image-output-area" class="output-area">
+                <p id="image-loading" class="hidden">Generating your masterpiece... Please wait.</p>
+                <img id="generated-image" src="#" alt="Generated Image" class="hidden">
+                <div id="image-error" class="error-message hidden"></div>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 NewGenerationAI</p>
+        </div>
+    </footer>
+    <script src="js/main.js"></script>
+    <script src="js/image.js"></script>
+</body>
+</html>
